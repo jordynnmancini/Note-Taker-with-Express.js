@@ -1,20 +1,20 @@
 // Load Data 
 const fs = require('fs'); 
-// const note = require('../db/db.json');
+const notes = require('../db/db.json');
 
 //Routing 
 module.exports = (app) => {
     fs.readFile('db/db.json', (err, data) => {
         if (err) throw err;
-        const note = JSON.parse(data); 
+        const notes = JSON.parse(data); 
 
-    app.get('/api/notes', (req, res) => res.JSON(note));
+    app.get('/api/notes', (req, res) => res.JSON(notes));
 
     app.post('/api/notes', (req, res) => {
-        note.push(req.body);
+        notes.push(req.body);
         updateDB(); 
-        res.send(note); 
-        // res.end() ?? 
+        res.send(notes); 
+        // res.end(notes); 
     }); 
 
 //     app.delete(`api/notes/${id}`, (req, res) => {
@@ -22,11 +22,11 @@ module.exports = (app) => {
 //     }); 
 
     function updateDB() {
-        fs.writeFile('db/db.json', JSON.stringify(note, '/t'), err => {
+        fs.writeFile('db/db.json', JSON.stringify(notes), err => {
             if (err) throw err;
             return true; 
         });
-    }
+    }; 
 
     });
 }; 
